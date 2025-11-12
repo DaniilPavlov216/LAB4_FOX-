@@ -18,7 +18,7 @@ namespace LogicTool.Models
             FunctionNumber = functionNumber;
             TruthTable = GenerateTruthTableFromNumber(variableCount, functionNumber);
         }
-
+        //
         private bool[] GenerateTruthTableFromNumber(int n, int num)
         {
             int tableSize = 1 << n; // 2^n
