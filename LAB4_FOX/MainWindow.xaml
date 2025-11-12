@@ -1,0 +1,23 @@
+﻿<!-- MainWindow.xaml -->
+<Window x:Class="LAB4_FOX.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Logic Tool - Булевы функции"
+        Height="600"
+        Width="800">
+
+    <TabControl>
+        <TabItem Header="По номеру">
+            <!-- Сюда потом вставим ByNumberView -->
+            <TextBlock Text="Вкладка 'По номеру' в разработке..." />
+        </TabItem>
+
+        <TabItem Header="По формуле">
+            <TextBlock Text="Вкладка 'По формуле' в разработке..." />
+        </TabItem>
+
+        <TabItem Header="Сравнение">
+            <TextBlock Text="Вкладка 'Сравнение' в разработке..." />
+        </TabItem>
+    </TabControl>
+</Window>
