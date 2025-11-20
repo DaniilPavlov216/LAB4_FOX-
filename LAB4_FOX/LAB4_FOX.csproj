@@ -9,8 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
-    <Folder Include="Converters\" />
+    <Compile Remove="Converters\**" />
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Converters\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Converters\**" />
+    <None Remove="Services\**" />
+    <Page Remove="Converters\**" />
+    <Page Remove="Services\**" />
   </ItemGroup>
 
 </Project>

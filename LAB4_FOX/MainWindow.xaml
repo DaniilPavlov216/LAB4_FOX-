@@ -1,23 +1,300 @@
-﻿<!-- MainWindow.xaml -->
-<Window x:Class="LAB4_FOX.MainWindow"
+﻿<Window x:Class="LAB4_FOX.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Logic Tool - Булевы функции"
-        Height="600"
-        Width="800">
+        xmlns:viewModels="clr-namespace:LAB4_FOX.ViewModels"
+        Title="Логические функции - ЛР4"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="White">
 
-    <TabControl>
-        <TabItem Header="По номеру">
-            <!-- Сюда потом вставим ByNumberView -->
-            <TextBlock Text="Вкладка 'По номеру' в разработке..." />
-        </TabItem>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <TabItem Header="По формуле">
-            <TextBlock Text="Вкладка 'По формуле' в разработке..." />
-        </TabItem>
+        <!-- Верхняя панель с кнопкой справки -->
+        <Border Grid.Row="0"
+                Background="LightBlue"
+                Padding="10">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="HelpButton"
+                        Content="📖 Справка"
+                        Click="HelpButton_Click"
+                        Padding="10,5"
+                        FontWeight="Bold"
+                        Background="LightYellow"
+                        ToolTip="Нажмите для получения подробной справки по программе" />
+            </StackPanel>
+        </Border>
 
-        <TabItem Header="Сравнение">
-            <TextBlock Text="Вкладка 'Сравнение' в разработке..." />
-        </TabItem>
-    </TabControl>
+        <!-- Основное содержимое -->
+        <TabControl Grid.Row="1"
+                    Margin="10">
+
+            <!-- Вкладка 1: По номеру -->
+            <TabItem Header="По номеру">
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <GroupBox Header="Ввод параметров функции">
+                            <StackPanel Margin="5">
+                                <TextBlock Text="Количество переменных (n) от 1 до 8:"
+                                           Margin="0,5" />
+                                <TextBox Text="{Binding VariableCount}"
+                                         Width="100"
+                                         Margin="0,5" />
+
+                                <TextBlock Text="Номер функции (num) от 0 до 2^(2^n)-1:"
+                                           Margin="0,5" />
+                                <TextBox Text="{Binding FunctionNumber}"
+                                         Width="100"
+                                         Margin="0,5" />
+
+                                <TextBlock Text="Номер функции определяет её таблицу истинности в двоичном виде"
+                                           FontStyle="Italic"
+                                           Foreground="Blue"
+                                           Margin="0,2" />
+                                <TextBlock Text="Например: номер 11 (1011₂) для n=3 означает: 000→1, 001→1, 010→0, 011→1, 100→0, ..."
+                                           FontStyle="Italic"
+                                           Foreground="DarkGreen"
+                                           Margin="0,2"
+                                           TextWrapping="Wrap" />
+
+                                <Button Content="Сгенерировать таблицу истинности"
+                                        Command="{Binding GenerateFromNumberCommand}"
+                                        Margin="0,10"
+                                        Padding="10,5"
+                                        Background="LightGreen" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Таблица истинности"
+                                  Margin="0,10">
+                            <ScrollViewer MaxHeight="400">
+                                <TextBlock Text="{Binding TruthTableText}"
+                                           FontFamily="Courier New"
+                                           Margin="5" />
+                            </ScrollViewer>
+                        </GroupBox>
+
+                        <TextBlock Text="DNF (дизъюнктивная нормальная форма) - объединение условий, когда функция истинна"
+                                   FontStyle="Italic"
+                                   Foreground="Purple"
+                                   Margin="0,5" />
+
+                        <GroupBox Header="ДНФ"
+                                  Margin="0,10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding DnfText}"
+                                           FontFamily="Courier New"
+                                           Margin="5"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding DnfCost}"
+                                           Margin="5,2"
+                                           FontWeight="SemiBold" />
+                                <Button Content="Копировать ДНФ в буфер"
+                                        Command="{Binding CopyDNFCommand}"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="LightCyan" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <TextBlock Text="KNF (конъюнктивная нормальная форма) - пересечение условий, когда функция ложна"
+                                   FontStyle="Italic"
+                                   Foreground="Purple"
+                                   Margin="0,5" />
+
+                        <GroupBox Header="КНФ"
+                                  Margin="0,10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding KnfText}"
+                                           FontFamily="Courier New"
+                                           Margin="5"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding KnfCost}"
+                                           Margin="5,2"
+                                           FontWeight="SemiBold" />
+                                <Button Content="Копировать КНФ в буфер"
+                                        Command="{Binding CopyKNFCommand}"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="LightCyan" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Вкладка 2: По формуле -->
+            <TabItem Header="По формуле">
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <GroupBox Header="Ввод формулы">
+                            <StackPanel Margin="5">
+                                <TextBlock Text="Введите логическую формулу:"
+                                           Margin="0,5" />
+                                <TextBox Text="{Binding Formula}"
+                                         Height="60"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         Margin="0,5"
+                                         FontFamily="Courier New" />
+
+                                <StackPanel Margin="0,5">
+                                    <TextBlock Text="Поддерживаемые операторы:"
+                                               FontWeight="SemiBold"
+                                               Margin="0,2" />
+                                    <WrapPanel>
+                                        <TextBlock Text="! или ¬ - НЕ"
+                                                   Margin="5,2"
+                                                   Background="LightYellow"
+                                                   Padding="3,1" />
+                                        <TextBlock Text="&amp; или ∧ - И"
+                                                   Margin="5,2"
+                                                   Background="LightYellow"
+                                                   Padding="3,1" />
+                                        <TextBlock Text="| или ∨ - ИЛИ"
+                                                   Margin="5,2"
+                                                   Background="LightYellow"
+                                                   Padding="3,1" />
+                                        <TextBlock Text="^ - исключающее ИЛИ"
+                                                   Margin="5,2"
+                                                   Background="LightYellow"
+                                                   Padding="3,1" />
+                                        <TextBlock Text="-&gt; или → - следует"
+                                                   Margin="5,2"
+                                                   Background="LightYellow"
+                                                   Padding="3,1" />
+                                        <TextBlock Text="= или ↔ - эквивалентность"
+                                                   Margin="5,2"
+                                                   Background="LightYellow"
+                                                   Padding="3,1" />
+                                    </WrapPanel>
+                                    <TextBlock Text="Операторы -&gt;, =, ^ автоматически разворачиваются в базис {НЕ, И, ИЛИ}"
+                                               FontStyle="Italic"
+                                               Foreground="Blue"
+                                               Margin="0,2" />
+                                    <TextBlock Text="Примеры: (x1 | x2) -&gt; x3, x1 &amp; !x2, (x1 ^ x2) = x3"
+                                               FontStyle="Italic"
+                                               Foreground="Gray"
+                                               Margin="0,5" />
+                                </StackPanel>
+
+                                <Button Content="Разобрать и вычислить"
+                                        Command="{Binding GenerateFromFormulaCommand}"
+                                        Margin="0,10"
+                                        Padding="10,5"
+                                        Background="LightGreen" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="Таблица истинности"
+                                  Margin="0,10">
+                            <ScrollViewer MaxHeight="400">
+                                <TextBlock Text="{Binding TruthTableText}"
+                                           FontFamily="Courier New"
+                                           Margin="5" />
+                            </ScrollViewer>
+                        </GroupBox>
+
+                        <TextBlock Text="DNF (дизъюнктивная нормальная форма) - объединение условий, когда функция истинна"
+                                   FontStyle="Italic"
+                                   Foreground="Purple"
+                                   Margin="0,5" />
+
+                        <GroupBox Header="ДНФ"
+                                  Margin="0,10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding DnfText}"
+                                           FontFamily="Courier New"
+                                           Margin="5"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding DnfCost}"
+                                           Margin="5,2"
+                                           FontWeight="SemiBold" />
+                                <Button Content="Копировать ДНФ в буфер"
+                                        Command="{Binding CopyDNFCommand}"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="LightCyan" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <TextBlock Text="KNF (конъюнктивная нормальная форма) - пересечение условий, когда функция ложна"
+                                   FontStyle="Italic"
+                                   Foreground="Purple"
+                                   Margin="0,5" />
+
+                        <GroupBox Header="КНФ"
+                                  Margin="0,10">
+                            <StackPanel>
+                                <TextBlock Text="{Binding KnfText}"
+                                           FontFamily="Courier New"
+                                           Margin="5"
+                                           TextWrapping="Wrap" />
+                                <TextBlock Text="{Binding KnfCost}"
+                                           Margin="5,2"
+                                           FontWeight="SemiBold" />
+                                <Button Content="Копировать КНФ в буфер"
+                                        Command="{Binding CopyKNFCommand}"
+                                        Margin="5"
+                                        HorizontalAlignment="Left"
+                                        Background="LightCyan" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Вкладка 3: Сравнение -->
+            <TabItem Header="Сравнение">
+                <ScrollViewer>
+                    <StackPanel Margin="10">
+                        <GroupBox Header="Сравнение двух функций">
+                            <StackPanel Margin="5">
+                                <TextBlock Text="Функция 1 (формула или параметры):"
+                                           Margin="0,5" />
+                                <TextBox Text="{Binding Formula1}"
+                                         Height="40"
+                                         TextWrapping="Wrap"
+                                         Margin="0,5"
+                                         FontFamily="Courier New" />
+
+                                <TextBlock Text="Функция 2 (формула или параметры):"
+                                           Margin="0,5" />
+                                <TextBox Text="{Binding Formula2}"
+                                         Height="40"
+                                         TextWrapping="Wrap"
+                                         Margin="0,5"
+                                         FontFamily="Courier New" />
+
+                                <TextBlock Text="Сравнивает две функции по их таблицам истинности"
+                                           FontStyle="Italic"
+                                           Foreground="Blue"
+                                           Margin="0,5" />
+                                <TextBlock Text="Если функции различаются, показывается первый набор переменных, где значения не совпадают"
+                                           FontStyle="Italic"
+                                           Foreground="DarkGreen"
+                                           Margin="0,2"
+                                           TextWrapping="Wrap" />
+
+                                <Button Content="Проверить эквивалентность"
+                                        Command="{Binding CompareFunctionsCommand}"
+                                        Margin="0,10"
+                                        Padding="10,5"
+                                        Background="LightGreen" />
+
+                                <TextBlock Text="{Binding ComparisonResult}"
+                                           FontWeight="Bold"
+                                           Margin="0,5"
+                                           TextWrapping="Wrap"
+                                           FontSize="14" />
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </Grid>
 </Window>

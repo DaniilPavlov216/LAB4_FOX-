@@ -1,13 +1,15 @@
-﻿
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace LogicTool.Models
+namespace LAB4_FOX.Models
 {
     public class BooleanFunction
     {
         public int VariableCount { get; private set; }
         public bool[] TruthTable { get; private set; }
         public int FunctionNumber { get; private set; }
+        public string Formula { get; private set; }
 
         public BooleanFunction(int variableCount, int functionNumber)
         {
@@ -17,11 +19,22 @@ namespace LogicTool.Models
             VariableCount = variableCount;
             FunctionNumber = functionNumber;
             TruthTable = GenerateTruthTableFromNumber(variableCount, functionNumber);
+            Formula = $"f{functionNumber}({variableCount})";
         }
-        //
+
+        public BooleanFunction(string formula)
+        {
+            Formula = formula;
+            var parser = new FormulaParser();
+            var result = parser.Parse(formula);
+            TruthTable = result.TruthTable;
+            VariableCount = result.VariableCount;
+            FunctionNumber = CalculateFunctionNumber(TruthTable);
+        }
+
         private bool[] GenerateTruthTableFromNumber(int n, int num)
         {
-            int tableSize = 1 << n; // 2^n
+            int tableSize = 1 << n;
             var table = new bool[tableSize];
 
             for (int i = 0; i < tableSize; i++)
@@ -30,6 +43,29 @@ namespace LogicTool.Models
             }
 
             return table;
+        }
+
+        private int CalculateFunctionNumber(bool[] truthTable)
+        {
+            int number = 0;
+            for (int i = 0; i < truthTable.Length; i++)
+            {
+                if (truthTable[i])
+                    number |= (1 << i);
+            }
+            return number;
+        }
+
+        public string GetDNF()
+        {
+            var dnfBuilder = new DNFBuilder();
+            return dnfBuilder.BuildDNF(TruthTable, VariableCount);
+        }
+
+        public string GetKNF()
+        {
+            var knfBuilder = new KNFBuilder();
+            return knfBuilder.BuildKNF(TruthTable, VariableCount);
         }
 
         public override string ToString()
