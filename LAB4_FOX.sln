@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LAB4_FOX", "LAB4_FOX\LAB4_FOX.csproj", "{502E11B5-C0B3-4863-9F4F-DF2E29F5169A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8AC7AE85-5DF6-4C92-9CB5-B4C243E9E83F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Отчет", "Отчет", "{36D591C7-65C7-A0D1-1CBC-10CDE441BDC8}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\Арина Лесничук\ЛАБА 4\Отчет.docx = ..\..\..\Desktop\Арина Лесничук\ЛАБА 4\Отчет.docx
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{502E11B5-C0B3-4863-9F4F-DF2E29F5169A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{502E11B5-C0B3-4863-9F4F-DF2E29F5169A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{502E11B5-C0B3-4863-9F4F-DF2E29F5169A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{502E11B5-C0B3-4863-9F4F-DF2E29F5169A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AC7AE85-5DF6-4C92-9CB5-B4C243E9E83F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC7AE85-5DF6-4C92-9CB5-B4C243E9E83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC7AE85-5DF6-4C92-9CB5-B4C243E9E83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC7AE85-5DF6-4C92-9CB5-B4C243E9E83F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0DFC321F-FAE9-4D7C-B9D7-C0A77F96A9D9}
+	EndGlobalSection
+EndGlobal
