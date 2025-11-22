@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace LAB4_FOX.Models
-{
+{//
     public class BooleanFunction
     {
         public int VariableCount { get; private set; }
